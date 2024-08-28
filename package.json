@@ -17,7 +17,9 @@
     "@vendure/core": "3.0.1",
     "@vendure/email-plugin": "3.0.1",
     "better-sqlite3": "9.6.0",
-    "dotenv": "16.4.5"
+    "dotenv": "16.4.5",
+    "google-auth-library": "^9.14.0",
+    "vendure-practice": "file:"
   },
   "devDependencies": {
     "@vendure/cli": "3.0.1",
