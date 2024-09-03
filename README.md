@@ -1,133 +1,118 @@
-# vendure-practice
+```markdown
+# Vendure Practice
 
-This project was generated with [`@vendure/create`](https://github.com/vendure-ecommerce/vendure/tree/master/packages/create).
+This repository contains a Vendure project that adds a custom button to the order list page in the Vendure admin UI. When clicked, this button generates a CSV file containing all orders visible in the frontend admin panel.
 
-Useful links:
+## Features
 
-- [Vendure docs](https://www.vendure.io/docs)
-- [Vendure Discord community](https://www.vendure.io/community)
-- [Vendure on GitHub](https://github.com/vendure-ecommerce/vendure)
-- [Vendure plugin template](https://github.com/vendure-ecommerce/plugin-template)
+- **Generate CSV:** Export all orders in the current view to a CSV file.
+- **Custom UI Extension:** Adds a new button to the order list in the Vendure admin UI.
+- **TypeScript Support:** The project is fully typed using TypeScript.
 
-## Directory structure
+## Prerequisites
 
-* `/src` contains the source code of your Vendure server. All your custom code and plugins should reside here.
-* `/static` contains static (non-code) files such as assets (e.g. uploaded images) and email templates.
+- Node.js (v14 or higher)
+- npm or Yarn
+- Vendure CLI
 
-## Development
+## Getting Started
 
-```
-npm run dev
-```
+### 1. Clone the Repository
 
-will start the Vendure server and [worker](https://www.vendure.io/docs/developer-guide/vendure-worker/) processes from
-the `src` directory.
-
-## Build
-
-```
-npm run build
+```bash
+git clone https://github.com/dipenbhat557/vendure-practice.git
+cd vendure-practice
 ```
 
-will compile the TypeScript sources into the `/dist` directory.
+### 2. Install Dependencies
 
-## Production
+Install the required dependencies using npm or Yarn:
 
-For production, there are many possibilities which depend on your operational requirements as well as your production
-hosting environment.
-
-### Running directly
-
-You can run the built files directly with the `start` script:
-
+```bash
+npm install
 ```
+
+Or with Yarn:
+
+```bash
+yarn install
+```
+
+### 3. Install `file-saver` and Type Declarations
+
+Make sure the `file-saver` package and its TypeScript declarations are installed:
+
+```bash
+npm install file-saver
+npm install --save-dev @types/file-saver
+```
+
+Or with Yarn:
+
+```bash
+yarn add file-saver
+yarn add @types/file-saver --dev
+```
+
+### 4. Run the Vendure Server
+
+Start the Vendure server:
+
+```bash
 npm run start
 ```
 
-You could also consider using a process manager like [pm2](https://pm2.keymetrics.io/) to run and manage
-the server & worker processes.
+Or with Yarn:
 
-### Using Docker
-
-We've included a sample [Dockerfile](./Dockerfile) which you can build with the following command:
-
-```
-docker build -t vendure .
+```bash
+yarn start
 ```
 
-This builds an image and tags it with the name "vendure". We can then run it with:
+### 5. Access the Admin UI
+
+After starting the server, you can access the Vendure admin UI at:
 
 ```
-# Run the server
-docker run -dp 3000:3000 -e "DB_HOST=host.docker.internal" --name vendure-server vendure npm run start:server
-
-# Run the worker
-docker run -dp 3000:3000 -e "DB_HOST=host.docker.internal" --name vendure-worker vendure npm run start:worker
+http://localhost:3000/admin
 ```
 
-Here is a breakdown of the command used above:
+Log in using your credentials.
 
-- `docker run` - run the image we created with `docker build`
-- `-dp 3000:3000` - the `-d` flag means to run in "detached" mode, so it runs in the background and does not take
-control of your terminal. `-p 3000:3000` means to expose port 3000 of the container (which is what Vendure listens
-on by default) as port 3000 on your host machine.
-- `-e "DB_HOST=host.docker.internal"` - the `-e` option allows you to define environment variables. In this case we
-are setting the `DB_HOST` to point to a special DNS name that is created by Docker desktop which points to the IP of
-the host machine. Note that `host.docker.internal` only exists in a Docker Desktop environment and thus should only be
-used in development.
-- `--name vendure-server` - we give the container a human-readable name.
-- `vendure` - we are referencing the tag we set up during the build.
-- `npm run start:server` - this last part is the actual command that should be run inside the container.
+### 6. Generate CSV from Orders
 
-### Docker compose
+- Navigate to the **Orders** page in the admin UI.
+- You will see a new button labeled **"Generate CSV"**.
+- Click this button to download a CSV file containing all orders visible in the current view.
 
-We've included a sample [docker-compose.yml](./docker-compose.yml) file which demonstrates how the server, worker, and
-database may be orchestrated with Docker Compose.
+## Project Structure
 
-## Plugins
-
-In Vendure, your custom functionality will live in [plugins](https://www.vendure.io/docs/plugins/).
-These should be located in the `./src/plugins` directory.
-
-To create a new plugin run:
-
-```
-npx vendure add
-```
-
-and select `[Plugin] Create a new Vendure plugin`.
-
-## Migrations
-
-[Migrations](https://www.vendure.io/docs/developer-guide/migrations/) allow safe updates to the database schema. Migrations
-will be required whenever you make changes to the `customFields` config or define new entities in a plugin.
-
-To generate a new migration, run:
-
-```
-npx vendure migrate
-```
-
-The generated migration file will be found in the `./src/migrations/` directory, and should be committed to source control.
-Next time you start the server, and outstanding migrations found in that directory will be run by the `runMigrations()`
-function in the [index.ts file](./src/index.ts).
-
-If, during initial development, you do not wish to manually generate a migration on each change to customFields etc, you
-can set `dbConnectionOptions.synchronize` to `true`. This will cause the database schema to get automatically updated
-on each start, removing the need for migration files. Note that this is **not** recommended once you have production
-data that you cannot lose.
-
----
-
-You can also run any pending migrations manually, without starting the server via the "vendure migrate" command.
-
----
+- **src/**: Contains the main source code for the Vendure custom plugin.
+  - **extensions/my-ui/**: Contains the custom UI extension code, including the CSV generation feature.
+- **plugin.ts**: Main plugin configuration.
+- **providers.ts**: Handles the functionality of the "Generate CSV" button.
 
 ## Troubleshooting
 
-### Error: Could not load the "sharp" module using the \[OS\]-x\[Architecture\] runtime when running Vendure server.
+### Common Issues
 
-- Make sure your Node version is ^18.17.0 || ^20.3.0 || >=21.0.0 to support the Sharp library.
-- Make sure your package manager is up to date.
-- **Not recommended**: if none of the above helps to resolve the issue, install sharp specifying your machines OS and Architecture. For example: `pnpm install sharp --config.platform=linux --config.architecture=x64` or `npm install sharp --os linux --cpu x64`
+- **Cannot find module 'file-saver'**: Ensure `file-saver` and `@types/file-saver` are installed as described above.
+- **Compilation errors**: Make sure your `tsconfig.json` is configured correctly and dependencies are installed.
 
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue if you find a bug or have a feature request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
+
+If you have any questions or feedback, feel free to reach out via the repository's Issues page.
+
+---
+
+### Author
+
+- Dipen Bhat - [GitHub](https://github.com/dipenbhat557)
+```
