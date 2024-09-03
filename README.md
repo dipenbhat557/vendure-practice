@@ -1,4 +1,3 @@
-```markdown
 # Vendure Practice
 
 This repository contains a Vendure project that adds a custom button to the order list page in the Vendure admin UI. When clicked, this button generates a CSV file containing all orders visible in the frontend admin panel.
@@ -38,23 +37,7 @@ Or with Yarn:
 yarn install
 ```
 
-### 3. Install `file-saver` and Type Declarations
-
-Make sure the `file-saver` package and its TypeScript declarations are installed:
-
-```bash
-npm install file-saver
-npm install --save-dev @types/file-saver
-```
-
-Or with Yarn:
-
-```bash
-yarn add file-saver
-yarn add @types/file-saver --dev
-```
-
-### 4. Run the Vendure Server
+### 3. Run the Vendure Server
 
 Start the Vendure server:
 
@@ -68,17 +51,26 @@ Or with Yarn:
 yarn start
 ```
 
-### 5. Access the Admin UI
+### 4. Access the Admin UI
 
 After starting the server, you can access the Vendure admin UI at:
 
 ```
+http://localhost:4200/admin
+
+Or
+
 http://localhost:3000/admin
 ```
 
 Log in using your credentials.
 
-### 6. Generate CSV from Orders
+i.e. 
+
+Username: superadmin
+Password: superadmin
+
+### 5. Generate CSV from Orders
 
 - Navigate to the **Orders** page in the admin UI.
 - You will see a new button labeled **"Generate CSV"**.
@@ -87,15 +79,15 @@ Log in using your credentials.
 ## Project Structure
 
 - **src/**: Contains the main source code for the Vendure custom plugin.
-  - **extensions/my-ui/**: Contains the custom UI extension code, including the CSV generation feature.
-- **plugin.ts**: Main plugin configuration.
-- **providers.ts**: Handles the functionality of the "Generate CSV" button.
+  - **plugins/my-plugin/ui/**: Contains the custom UI extension code, including the CSV generation feature.
+- **plugins/my-plugin/my.plugin.ts**: Main plugin configuration.
+- **plugins/my-plugin/ui/providers.ts**: Handles the functionality of the "Generate CSV" button.
 
 ## Troubleshooting
 
 ### Common Issues
 
-- **Cannot find module 'file-saver'**: Ensure `file-saver` and `@types/file-saver` are installed as described above.
+- **Cannot find module 'file-saver'**: Ensure `file-saver` and `@types/file-saver` are installed.
 - **Compilation errors**: Make sure your `tsconfig.json` is configured correctly and dependencies are installed.
 
 ## Contributing
@@ -114,5 +106,5 @@ If you have any questions or feedback, feel free to reach out via the repository
 
 ### Author
 
-- Dipen Bhat - [GitHub](https://github.com/dipenbhat557)
+- Dipendra Bhatta - [GitHub](https://github.com/dipenbhat557)
 ```
